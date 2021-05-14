@@ -1,0 +1,9 @@
+name: LoginBar
+main: me.sedattr.loginbar.LoginBar
+version: 1.0
+author: SedatTR
+commands:
+  send:
+    description: Send command.
+  skyblock:
+    description: Sends to skyblock server.

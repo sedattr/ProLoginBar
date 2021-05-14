@@ -1,0 +1,61 @@
+# _ _____ _____ _____ _____ _____ _____ _____ _
+#|_|_____|_____|_____|_____|_____|_____|_____|_|
+#| |          _____  _____   ____            | |
+#| |         |  __ \|  __ \ / __ \           | |
+#|_|         | |__) | |__) | |  | |          |_|
+#| |         |  ___/|  _  /| |  | |          | |
+#| |         | |    | | \ \| |__| |          | |
+#|_|         |_|    |_|  \_\\____/           |_|
+#| |                                         | |
+#| |        ProJumpPads | SedatTR#8666       | |
+#|_|_____ _____ _____ _____ _____ _____ _____|_|
+#|_|_____|_____|_____|_____|_____|_____|_____|_|
+#
+# If you have any question or suggestion please contact to me.
+# Discord: SedatTR#8666
+# Discord Server: https://discord.gg/nchk86TKMT
+server:
+  name: skyblock
+  time: 3
+  error_message: "&cThere is a problem while teleporting you, try again later!"
+  success_message: "&aBaşarıyla ışınlanıyorsunuz. Olmazsa &f/skyblock &akomutunu kullanabilirsin."
+  teleporting_message: "&eIşınlanıyorsunuz. Olmazsa &f/skyblock &ekomutunu kullanabilirsin."
+  wait_message: "&cLütfen biraz bekle!"
+
+kick:
+  enabled: true
+  time: 30
+  message: "&cYou are so slow!"
+
+action_bar:
+  message: "&aWrite your password in &f%time% &aseconds!"
+
+
+login:
+  fade_in: 3
+  stay: 10
+  fade_out: 3
+  title: "&aLogin"
+  subtitle: "&f/login [password]"
+
+register:
+  fade_in: 3
+  stay: 10
+  fade_out: 3
+  title: "&aRegister"
+  subtitle: "&f/register [password] [password]"
+
+teleport:
+  fade_in: 3
+  stay: 10
+  fade_out: 3
+  title: "&aTeleporting"
+  subtitle: "&fTo Server"
+
+spawn:
+  world: Map
+  x: 240.5
+  y: 80
+  z: 1337.5
+  yaw: 180
+  pitch: 0
