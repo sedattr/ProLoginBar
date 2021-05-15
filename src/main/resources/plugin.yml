@@ -1,9 +1,14 @@
-name: LoginBar
+name: ProLoginBar
 main: me.sedattr.loginbar.LoginBar
 version: 1.0
 author: SedatTR
+description: Advanced login bar plugin for auth lobby with boss bar, title and action bar!
+softdepend:
+  - AuthMe
 commands:
   send:
-    description: Send command.
-  skyblock:
-    description: Sends to skyblock server.
+    description: You can send player to bungeecord server.
+    usage: /send [player] (name)
+  server:
+    description: Sends to bungeecord server.
+    usage: /server (name)

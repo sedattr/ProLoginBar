@@ -1,169 +1,88 @@
 package me.sedattr.loginbar;
 
-import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.api.v3.AuthMeApi;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.GameMode;
+import me.sedattr.loginbar.helpers.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Events implements Listener {
-    public static String colorize(String s) {
-        if (s == null || s.equals(""))
-            return "";
+    private final ConfigurationSection kickSection;
+    private final AuthMeApi authMe;
+    private final Integer kick;
+    private final LoginBar plugin;
 
-        return ChatColor.translateAlternateColorCodes('&', s);
-    }
+    public Events(LoginBar plugin) {
+        this.plugin = plugin;
+        this.kickSection = Variables.config.getConfigurationSection("kick");
+        this.authMe = AuthMeApi.getInstance();
 
-    @EventHandler
-    public void onChat(AsyncPlayerChatEvent e) {
-        if (e.getPlayer().isOp())
-            return;
+        if (this.kickSection != null)
+            this.kick = this.kickSection.getInt("time", 30);
+        else
+            this.kick = 30;
 
-        String message = e.getMessage().substring(1).toLowerCase();
-        if (message.startsWith("skyblock") || message.startsWith("login") || message.startsWith("register") || message.startsWith("reg") || message.startsWith("l"))
-            return;
-        if (message.startsWith("giriş") || message.startsWith("kayıt") || message.startsWith("kayit") || message.startsWith("giris"))
-            return;
-
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onFoodChange(FoodLevelChangeEvent e) {
-        if (!(e.getEntity() instanceof Player))
-            return;
-
-        Player player = (Player) e.getEntity();
-        if (player.isOp())
-            return;
-
-        e.setCancelled(true);
-        player.setFoodLevel(20);
-     }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onCommand(PlayerCommandPreprocessEvent e) {
-        Player player = e.getPlayer();
-        if (player.isOp())
-            return;
-
-        String message = e.getMessage().substring(1).toLowerCase();
-        if (message.startsWith("skyblock") || message.startsWith("login") || message.startsWith("register") || message.startsWith("reg") || message.startsWith("l"))
-            return;
-        e.setCancelled(true);
-        if (AuthMeApi.getInstance().isAuthenticated(player))
-            return;
-
-        if (message.startsWith("giriş") || message.startsWith("kayıt") || message.startsWith("kayit") || message.startsWith("giris")) {
-            player.chat("/" + e.getMessage()
-                    .replace("/giriş", "login")
-                    .replace("/giris", "login")
-                    .replace("/kayit", "register")
-                    .replace("/kayıt", "register"));
-        }
-    }
-
-    @EventHandler
-    public void onDamage(EntityDamageEvent e) {
-        if (!(e.getEntity() instanceof Player))
-            return;
-
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInteract(EntityDamageByEntityEvent e) {
-        if (e.getDamager().isOp())
-            return;
-
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onHunger(FoodLevelChangeEvent e) {
-        if (!(e.getEntity() instanceof Player))
-            return;
-        if (e.getEntity().isOp())
-            return;
-
-        e.setCancelled(true);
-        ((Player)e.getEntity()).setFoodLevel(20);
-    }
-
-    @EventHandler
-    public void onInteract(PlayerInteractEvent e) {
-        if (e.getPlayer().isOp())
-            return;
-
-        e.setCancelled(true);
-    }
-
-    @EventHandler
-    public void onInteract(PlayerInteractAtEntityEvent e) {
-        if (e.getPlayer().isOp())
-            return;
-
-        e.setCancelled(true);
-    }
-    
-    @EventHandler
-    public void onLeave(PlayerQuitEvent e) {
-        e.setQuitMessage(null);
+        if (this.authMe != null)
+            Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        e.setJoinMessage(null);
-
-        final int[] time = {LoginBar.config.getInt("kick.time", 30)};
+        final int[] time = {this.kick};
 
         Player player = e.getPlayer();
-        if (LoginBar.fly != null) {
-            player.teleport(LoginBar.fly);
-            player.setGameMode(GameMode.ADVENTURE);
-            player.getInventory().clear();
 
-            player.setFoodLevel(20);
-            player.setHealth(20);
-
-            player.setFlying(false);
-            player.setAllowFlight(false);
+        if (this.authMe.isRegistered(player.getName())) {
+            Variables.title.send(player, "login", time[0]);
+            Variables.actionBar.send(player, "login", time[0]);
+        } else {
+            Variables.title.send(player, "register", time[0]);
+            Variables.actionBar.send(player, "register", time[0]);
         }
 
-        if (AuthMeApi.getInstance().isRegistered(player.getName()))
-            LoginBar.getInstance().sendTitle(player, "login");
-        else
-            LoginBar.getInstance().sendTitle(player, "register");
-
-        new ActionBar().sendActionbar(player, colorize(LoginBar.config.getString("action_bar.message").replace("%time%", String.valueOf(time[0]))));
+        if (Variables.bossBar != null)
+            Variables.bossBar.create(player);
         new BukkitRunnable() {
             public void run() {
                 if (!player.isOnline()) {
+                    if (Variables.bossBar != null)
+                        Variables.bossBar.remove(player);
+
                     cancel();
                     return;
                 }
 
-                if (time[0] <= 1 || AuthMeApi.getInstance().isAuthenticated(player)) {
-                    if (!AuthMeApi.getInstance().isAuthenticated(player)) {
-                        if (LoginBar.config.getBoolean("kick.enabled"))
-                            player.kickPlayer(colorize(LoginBar.config.getString("kick.message")));
-                    } else
-                        LoginBar.getInstance().sendToServer(player, null);
+                if (time[0] <= 0) {
+                    if (Events.this.kickSection != null && Events.this.kickSection.getBoolean("enabled")) {
+                        String message = Events.this.kickSection.getString("message");
+                        if (message != null && !message.equals(""))
+                            player.kickPlayer(Utils.colorize(message));
+                    }
+
+                    if (Variables.bossBar != null)
+                        Variables.bossBar.remove(player);
                     cancel();
                     return;
                 }
 
-                new ActionBar().sendActionbar(player, colorize(LoginBar.config.getString("action_bar.message").replace("%time%", String.valueOf(time[0]))));
+                if (Events.this.authMe.isAuthenticated(player)) {
+                    Variables.server.send(player, null);
+
+                    if (Variables.bossBar != null)
+                        Variables.bossBar.remove(player);
+                    cancel();
+                    return;
+                }
+
+                if (Variables.bossBar != null)
+                    Variables.bossBar.change(player, time[0], Events.this.kick);
+                Variables.actionBar.send(player, "message", time[0]);
                 time[0]--;
             }
-        }.runTaskTimer(LoginBar.getInstance(), 0L, 20L);
+        }.runTaskTimer(this.plugin, 0L, 20L);
     }
 }

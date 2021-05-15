@@ -7,7 +7,7 @@
 #| |         | |    | | \ \| |__| |          | |
 #|_|         |_|    |_|  \_\\____/           |_|
 #| |                                         | |
-#| |        ProJumpPads | SedatTR#8666       | |
+#| |        ProLoginBar | SedatTR#8666       | |
 #|_|_____ _____ _____ _____ _____ _____ _____|_|
 #|_|_____|_____|_____|_____|_____|_____|_____|_|
 #
@@ -15,47 +15,51 @@
 # Discord: SedatTR#8666
 # Discord Server: https://discord.gg/nchk86TKMT
 server:
-  name: skyblock
-  time: 3
-  error_message: "&cThere is a problem while teleporting you, try again later!"
-  success_message: "&aBaşarıyla ışınlanıyorsunuz. Olmazsa &f/skyblock &akomutunu kullanabilirsin."
-  teleporting_message: "&eIşınlanıyorsunuz. Olmazsa &f/skyblock &ekomutunu kullanabilirsin."
-  wait_message: "&cLütfen biraz bekle!"
+  name: skyblock # Default bungeecord server name
+  time: 3 # Teleport time
+
+  error: "&cThere is a problem while teleporting you, try again later!"
+  success: "&aConnecting you to server..."
+  teleporting: "&eTeleporting... You can use &f/server &eif server is not teleported you."
+  wait: "&cPlease wait a bit!" # /server
 
 kick:
-  enabled: true
-  time: 30
-  message: "&cYou are so slow!"
+  enabled: true # If enabled plugin will be kicked when time is over
+  time: 30 # Kick time
+  message: "&cYou are so slow!" # Kick message
 
+# Change message to "" for disabling this setting
+boss_bar:
+  progress: true # If enabled bar progress will be decrease every second
+  colored: true # If enabled bar colors will be change with time
+  color: WHITE # Bar color
+  style: SOLID # Bar style
+  message: "&aWrite your password in &f%time% &aseconds!" # Bar message
+
+# Change message to "" for disabling this setting
 action_bar:
-  message: "&aWrite your password in &f%time% &aseconds!"
+  login: "&aLogin in &f%time% &aseconds!"
+  register: "&eRegister in &f%time% &eseconds!"
+  message: "&bWrite password in &f%time% &bseconds!"
 
-
-login:
-  fade_in: 3
-  stay: 10
-  fade_out: 3
-  title: "&aLogin"
-  subtitle: "&f/login [password]"
-
-register:
-  fade_in: 3
-  stay: 10
-  fade_out: 3
-  title: "&aRegister"
-  subtitle: "&f/register [password] [password]"
-
-teleport:
-  fade_in: 3
-  stay: 10
-  fade_out: 3
-  title: "&aTeleporting"
-  subtitle: "&fTo Server"
-
-spawn:
-  world: Map
-  x: 240.5
-  y: 80
-  z: 1337.5
-  yaw: 180
-  pitch: 0
+# Change title to "" for disabling title
+# Change subtitle to "" for disabling subtitle
+title:
+  login:
+    title: "&aLogin"
+    subtitle: "&f/login [password]"
+    fade_in: 3
+    stay: 10
+    fade_out: 3
+  register:
+    title: "&eRegister"
+    subtitle: "&f/register [password] [password]"
+    fade_in: 3
+    stay: 10
+    fade_out: 3
+  teleporting:
+    title: "&bSuccessful"
+    subtitle: "&fTeleporting"
+    fade_in: 3
+    stay: 10
+    fade_out: 3
