@@ -70,7 +70,8 @@ public class Events implements Listener {
                 }
 
                 if (Events.this.authMe.isAuthenticated(player)) {
-                    Variables.server.send(player, null);
+                    if (Variables.bungeecord)
+                        Variables.server.send(player, null);
 
                     if (Variables.bossBar != null)
                         Variables.bossBar.remove(player);

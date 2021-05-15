@@ -17,4 +17,5 @@ public class Variables {
     public static ActionBar actionBar;
     public static Server server;
     public static BossBar bossBar;
+    public static Boolean bungeecord;
 }

@@ -14,6 +14,7 @@
 # If you have any question or suggestion please contact to me.
 # Discord: SedatTR#8666
 # Discord Server: https://discord.gg/nchk86TKMT
+bungeecord: true # Use bungeecord systems or not
 server:
   name: skyblock # Default bungeecord server name
   time: 3 # Teleport time

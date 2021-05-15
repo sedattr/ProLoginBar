@@ -15,7 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LoginBar extends JavaPlugin {
     public void loadVariables() {
         Variables.config = getConfig();
-        Variables.server = new Server(this);
+        Variables.bungeecord = Variables.config.getBoolean("bungeecord");
+        if (Variables.bungeecord)
+            Variables.server = new Server(this);
 
         String version = Bukkit.getVersion();
 
@@ -26,26 +28,31 @@ public class LoginBar extends JavaPlugin {
 
     public void onEnable() {
         saveDefaultConfig();
-        loadVariables();
-
-        if (!Bukkit.getPluginManager().isPluginEnabled("AuthMe"))
+        if (!Bukkit.getPluginManager().isPluginEnabled("AuthMe")) {
+            Bukkit.getConsoleSender().sendMessage("§8[§bDeluxeBazaar§8] §cI can't find AuthMe! Plugin is disabling...");
+            Bukkit.getServer().getPluginManager().disablePlugin(this);
             return;
+        }
 
+        loadVariables();
         new Events(this);
-        getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        if (Variables.bungeecord) {
+            Bukkit.getConsoleSender().sendMessage("§8[§bProLoginBar§8] §eEnabled Bungeecord support.");
+            Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
 
-        PluginCommand send = getCommand("send");
-        if (send != null)
-            send.setExecutor(new SendCommand());
+            PluginCommand send = getCommand("send");
+            if (send != null)
+                send.setExecutor(new SendCommand());
 
-        PluginCommand server = getCommand("server");
-        if (server != null)
-            server.setExecutor(new ServerCommand());
+            PluginCommand server = getCommand("server");
+            if (server != null)
+                server.setExecutor(new ServerCommand());
+        }
 
-        Bukkit.getConsoleSender().sendMessage("§8[§bLoginBar§8] §aPlugin enabled! Made by SedatTR#8666.");
+        Bukkit.getConsoleSender().sendMessage("§8[§bProLoginBar§8] §aPlugin is successfully enabled! §fv" + getDescription().getVersion());
     }
 
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage("§8[§bLoginBar§8] §cPlugin disabled!");
+        Bukkit.getConsoleSender().sendMessage("§8[§bProLoginBar§8] §cPlugin is successfully disabled!");
     }
 }
