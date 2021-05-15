@@ -2,7 +2,7 @@ name: ProLoginBar
 main: me.sedattr.loginbar.LoginBar
 version: 1.0
 author: SedatTR
-description: Advanced login bar plugin for auth lobby with boss bar, title and action bar!
+description: Advanced login bar plugin for auth lobby with title, subtitle, action bar and boss bar!
 softdepend:
   - AuthMe
 commands:

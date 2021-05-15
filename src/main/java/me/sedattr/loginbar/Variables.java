@@ -1,9 +1,9 @@
 package me.sedattr.loginbar;
 
-import me.sedattr.loginbar.helpers.ActionBar;
+import me.sedattr.loginbar.actionbar.ActionBar;
 import me.sedattr.loginbar.helpers.BossBar;
 import me.sedattr.loginbar.helpers.Server;
-import me.sedattr.loginbar.helpers.Title;
+import me.sedattr.loginbar.title.Title;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 

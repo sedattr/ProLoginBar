@@ -9,8 +9,8 @@
     </properties>
 
     <groupId>me.sedattr.loginbar</groupId>
-    <artifactId>LoginBar</artifactId>
-    <version>1</version>
+    <artifactId>ProLoginBar</artifactId>
+    <version>1.0</version>
     <build>
         <defaultGoal>clean package install</defaultGoal>
         <sourceDirectory>${basedir}/src/main/java</sourceDirectory>

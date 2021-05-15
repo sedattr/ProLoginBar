@@ -1,11 +1,13 @@
 package me.sedattr.loginbar;
 
+import me.sedattr.loginbar.actionbar.ActionBar1_8;
+import me.sedattr.loginbar.actionbar.ActionBar1_10;
 import me.sedattr.loginbar.commands.SendCommand;
 import me.sedattr.loginbar.commands.ServerCommand;
-import me.sedattr.loginbar.helpers.ActionBar;
 import me.sedattr.loginbar.helpers.BossBar;
 import me.sedattr.loginbar.helpers.Server;
-import me.sedattr.loginbar.helpers.Title;
+import me.sedattr.loginbar.title.Title1_8;
+import me.sedattr.loginbar.title.Title1_11;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -13,11 +15,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class LoginBar extends JavaPlugin {
     public void loadVariables() {
         Variables.config = getConfig();
-
-        Variables.title = new Title();
-        Variables.actionBar = new ActionBar();
-        Variables.bossBar = !Bukkit.getVersion().contains("1.8") ? new BossBar() : null;
         Variables.server = new Server(this);
+
+        String version = Bukkit.getVersion();
+
+        Variables.title = version.contains("1.7") || version.contains("1.8") || version.contains("1.9") || version.contains("1.10") ? new Title1_8() : new Title1_11();
+        Variables.actionBar = version.contains("1.7") || version.contains("1.8") || version.contains("1.9") ? new ActionBar1_8() : new ActionBar1_10();
+        Variables.bossBar = version.contains("1.7") || version.contains("1.8") ? null : new BossBar();
     }
 
     public void onEnable() {

@@ -1,17 +1,21 @@
-package me.sedattr.loginbar.helpers;
+package me.sedattr.loginbar.actionbar;
 
-import java.lang.reflect.Constructor;
 import me.sedattr.loginbar.Variables;
+import me.sedattr.loginbar.helpers.Reflection;
+import me.sedattr.loginbar.helpers.Utils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class ActionBar implements Reflection {
+import java.lang.reflect.Constructor;
+
+public class ActionBar1_8 implements ActionBar, Reflection {
     private final ConfigurationSection section;
 
-    public ActionBar() {
+    public ActionBar1_8() {
         this.section = Variables.config.getConfigurationSection("action_bar");
     }
 
+    @Override
     public void actionBar(Player player, String text) {
         try {
             Constructor<?> constructor = getNMSClass("PacketPlayOutChat").getConstructor(getNMSClass("IChatBaseComponent"), byte.class);
@@ -25,6 +29,7 @@ public class ActionBar implements Reflection {
         }
     }
 
+    @Override
     public void send(Player player, String type, Integer time) {
         if (this.section == null)
             return;
@@ -34,6 +39,6 @@ public class ActionBar implements Reflection {
             return;
 
         actionBar(player, Utils.colorize(message
-        .replace("%time%", String.valueOf(time))));
+                .replace("%time%", String.valueOf(time))));
     }
 }

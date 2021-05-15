@@ -1,15 +1,17 @@
-package me.sedattr.loginbar.helpers;
-
-import java.lang.reflect.Constructor;
+package me.sedattr.loginbar.title;
 
 import me.sedattr.loginbar.Variables;
+import me.sedattr.loginbar.helpers.Reflection;
+import me.sedattr.loginbar.helpers.Utils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-public class Title implements Reflection {
+import java.lang.reflect.Constructor;
+
+public class Title1_8 implements Title, Reflection {
     private final ConfigurationSection section;
 
-    public Title() {
+    public Title1_8() {
         this.section = Variables.config.getConfigurationSection("title");
     }
 
@@ -75,7 +77,7 @@ public class Title implements Reflection {
         String title = titleSection.getString("title");
         if (title != null && !title.equals(""))
             title(player, Utils.colorize(title
-            .replace("%time%", String.valueOf(time))), fadeIn, stay, fadeOut);
+                    .replace("%time%", String.valueOf(time))), fadeIn, stay, fadeOut);
 
         String subtitle = titleSection.getString("subtitle");
         if (subtitle != null && !subtitle.equals(""))

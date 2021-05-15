@@ -45,7 +45,7 @@ public class Events implements Listener {
         }
 
         if (Variables.bossBar != null)
-            Variables.bossBar.create(player);
+            Variables.bossBar.create(player, time[0]);
         new BukkitRunnable() {
             public void run() {
                 if (!player.isOnline()) {
